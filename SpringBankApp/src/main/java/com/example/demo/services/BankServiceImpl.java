@@ -28,6 +28,7 @@ public class BankServiceImpl implements BankService {
 	private TransactionRepository transactionRepository;
 	
 	@Autowired
+	@Qualifier("jpaReward")
 	private RewardRepository rewardRepository;	
 	
 	@Autowired
@@ -47,6 +48,7 @@ public class BankServiceImpl implements BankService {
 
 	public Long debit(int amount, Long accountNumber) throws SQLException {
 		Account account=accountRepository.findAccountByNumber(accountNumber);		
+		System.out.println("\n\n "+account.getName() +" \n\n");
 		account.debit(amount);		
 		accountRepository.update(account);
 		TransactionDetail fromTransactionDetail= 
@@ -54,11 +56,11 @@ public class BankServiceImpl implements BankService {
 
 		Long transactionId=transactionRepository.addTransaction(fromTransactionDetail);
 		
-//		if(emailService!=null){
-//			emailService.sendMail(account.getEmailAddress(),
-//					"admin@mybank.com", amount+" has been debited from your account");
-//		}
-//		
+		if(emailService!=null){
+			emailService.sendMail(account.getEmailAddress(),
+					"admin@mybank.com", amount+" has been debited from your account");
+		}
+		
 		return transactionId;
 
 	}
@@ -71,10 +73,10 @@ public class BankServiceImpl implements BankService {
 				new TransactionDetail(accountNumber,new Date(),amount,TransactionType.CREDIT);
 
 		Long transactionId=transactionRepository.addTransaction(toTransactionDetail);
-//		if(emailService!=null){
-//			emailService.sendMail(account.getEmailAddress(), "admin@mybank.com", amount+" has been credited into your account");
-//		}
-//		
+		if(emailService!=null){
+			emailService.sendMail(account.getEmailAddress(), "admin@mybank.com", amount+" has been credited into your account");
+		}
+		
 		return transactionId;
 
 		

@@ -2,6 +2,7 @@ package com.example.demo.entities;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,15 +13,17 @@ import javax.persistence.OneToOne;
 @Entity
 public class Account {
 	
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long accountNumber;
+	
 	private String name;
+	
 	private boolean isActive;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Benificiary> benificiaries;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 	
 	private int balance;
@@ -46,6 +49,20 @@ public class Account {
 		address.setCountry(country);;
 		this.address=address;
 	}
+	public Account( String name, boolean isActive,
+			 int balance, String emailAddress,String city,String country) {
+			super();
+			
+			this.name = name;
+			this.isActive = isActive;	
+			this.balance = balance;
+			this.emailAddress = emailAddress;
+			
+			Address address= new Address();
+			address.setCity(city);
+			address.setCountry(country);;
+			this.address=address;
+		}
 
 	public void debit(int amount){
 		balance-=amount;

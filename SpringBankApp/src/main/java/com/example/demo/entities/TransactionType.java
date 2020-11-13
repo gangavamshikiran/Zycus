@@ -9,7 +9,7 @@ public enum TransactionType {
 	
 	DEBIT("Debit"),CREDIT("Credit");
 	
-	@Id
+//	@Id
 	private String type;
 
 	private TransactionType(String type) {

@@ -14,8 +14,8 @@ import javax.persistence.Table;
 @Table(name = "transactiondetail")
 public class TransactionDetail {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	
+	@Id 
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="transactionid")
 	private Long transactionId;
 	
